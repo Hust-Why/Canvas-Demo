@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript">
+        // body加载完成执行
+        function draw() {
+            const cnv = document.getElementById('demo');
+            const ctx = cnv.getContext("2d");
+
+            ctx.beginPath();
+            ctx.fillStyle = 'skyblue';
+            ctx.fillRect(0, 0, 100, 100);
+
+            console.log(cnv.width, cnv.height);
+        }
+    </script>
+</head>
+
+<body onload="draw()">
+    <div class='container'>
+
+        <!-- Create the Canvas element. -->
+        <canvas id="demo">
+            <span>canvas不可用时话术,兼容低版本浏览器</span>
+        </canvas>
+
+    </div>
+</body>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #demo {
+        /* 手动用css改成2呗，会被拉伸2倍 */
+        width: 600px;
+        height: 300px;
+    }
+</style>
+
+</html>

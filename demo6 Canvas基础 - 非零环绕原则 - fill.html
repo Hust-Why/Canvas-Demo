@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript">
+    function draw() {
+      var cas = document.getElementById('demo');
+      var ctx = cas.getContext('2d');
+
+      // 圆的路径一顺一逆
+      // arc 默认false,顺时针
+      ctx.arc(250, 250, 150, 0, 2 * Math.PI);
+      ctx.arc(250, 250, 120, 0, 2 * Math.PI, true);
+      ctx.fillStyle = 'orange';
+      ctx.fill(); // fillRule默认非零环绕原则 奇偶环绕也是大同小异
+
+
+      // 圆的路径两顺
+      ctx.beginPath();
+      ctx.arc(600, 250, 150, 0, 2 * Math.PI);
+      ctx.arc(600, 250, 120, 0, 2 * Math.PI);
+      ctx.fillStyle = 'orange';
+      ctx.fill();
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+  <div class='container'>
+
+    <!-- Create the Canvas element. -->
+    <canvas id="demo"
+      width="800"
+      height="800">
+      <span>canvas不可用时话术,兼容低版本浏览器</span>
+    </canvas>
+
+  </div>
+</body>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-around;
+  }
+</style>
+
+</html>

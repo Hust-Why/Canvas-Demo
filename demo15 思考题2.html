@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript">
+        // body加载完成执行
+        function draw() {
+            const cnv = document.getElementById('demo');
+            const ctx = cnv.getContext("2d");
+
+            // 2px问题
+            // 当绘制方向上的坐标是整数时
+            // 若线宽为奇数，那么无论如何，线条的矩形区域都坐标都多出0.5像素，于是补满，整体多出了1像素。
+            // 若线宽为偶数，那么无论如何，画笔中线总是对齐坐标的，线条宽度不会产生偏差。
+            // 若当线宽为小数，那么无论如何，线条的矩形区域都坐标都存在小数，于是补满。整体也会多出1像素。
+            ctx.beginPath();
+            ctx.lineWidth = 4; //  改成2试试
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(105, 300, 100, 200);
+
+            // 或者线宽是奇数，改绘制坐标+0.5，也可以得到清晰的线
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(215.5, 300.5, 100, 200); // 虽然是1线宽，但手动改坐标
+        }
+    </script>
+</head>
+
+<body onload="draw()">
+    <div class='container'>
+
+        <!-- Create the Canvas element. -->
+        <canvas id="demo"
+            width="800"
+            height="800">
+            <span>canvas不可用时话术,兼容低版本浏览器</span>
+        </canvas>
+
+    </div>
+</body>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-around;
+    }
+</style>
+
+</html>

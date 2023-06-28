@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible"
+    content="ie=edge">
+  <style type="text/css">
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #canvas {
+      background: #eeeeee;
+      border: 1px solid skyblue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="canvas"
+    width="600"
+    height="400" />
+
+  <script type="text/javascript">
+    // 获取元素
+    let canvas = document.getElementById('canvas');
+    // 获取上下文
+    let context = canvas.getContext('2d');
+
+    class Ball {
+      constructor(context, options = {}) {
+        this.context = context;
+        this.x = options.x || 0;
+        this.y = options.y || 0;
+        this.radius = options.radius || 20;
+        this.color = options.color || '#000';
+        this.vx = options.vx || 0; // x速度
+        this.vy = options.vy || 0; // y速度
+        this.ax = options.ax || 0; // 横线加速度
+        this.ay = options.ay || 0; // 纵向加速度
+      }
+
+      // 更新小球的速度及坐标 每帧就是时间
+      update() {
+        this.vx += this.ax; // 速度受加速度影响
+        this.vy += this.ay;
+        this.x += this.vx; // 路程受速度影响
+        this.y += this.vy;
+        console.log(this.vy);
+      }
+
+      draw() {
+        this.context.beginPath();
+        this.context.arc(this.x, this.y, this.radius, Math.PI / 180 * 0, Math.PI / 180 * 360);
+        this.context.fillStyle = this.color;
+        this.context.closePath();
+        this.context.fill();
+      }
+    }
+
+    let balls = []
+
+    balls.push(new Ball(context, {
+      x: 20,
+      y: 20,
+      radius: 20,
+      vx: 3, // x速度
+      vy: 2, // y速度
+      ax: 0, // 横线加速度
+      ay: 0.5, // 纵向加速度
+      color: 'red',
+    }));
+
+    // balls.push(new Ball(context,{
+    //   x:canvas.width - 20,
+    //   y:20,
+    //   vx:-3,
+    //   vy:2,
+    //   ay:0.5,
+    //   color:'blue',
+    // }));
+
+
+    // 边界校验
+    function checkWalls(ball) {
+      // 左右边界反弹
+      if (ball.x < ball.radius) { // 碰撞左侧，vx相反
+        ball.x = ball.radius;
+        ball.vx *= -0.99; // 摩擦力，对横向速度的影响
+      } else if (ball.x > canvas.width - ball.radius) {
+        ball.x = canvas.width - ball.radius;
+        ball.vx *= -0.99; // 摩擦力，对横向速度的影响
+      }
+
+      // 上下边界反弹
+      if (ball.y < ball.radius) { // 碰撞顶部，vy相反，之后每次update会减少vy个纵坐标
+        ball.y = ball.radius;
+        ball.vy *= -0.95; // 假设能量损耗是0.05，对纵向速度的影响
+        ball.vx *= 0.99; // 摩擦力，对横向速度的影响
+      } else if (ball.y > canvas.height - ball.radius) { // 碰撞底部，vy负，之后每次update会减少vy个纵坐标
+        ball.y = canvas.height - ball.radius;
+        ball.vy *= -0.95; // 假设能量损耗是0.05，对纵向速度的影响
+        ball.vx *= 0.99; // 摩擦力，对横向速度的影响
+      }
+    }
+
+    function animate() {
+
+      // 拖尾
+      context.fillStyle = "rgba(255,255,255,0.2)";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 非拖尾 清空
+      // context.clearRect(0, 0, canvas.width, canvas.height);
+
+      balls.forEach(ball => {
+        // 更新小球的速度及坐标
+        ball.update();
+
+        // 检测是否碰撞到边界、能量损耗等
+        checkWalls(ball);
+
+        // 绘制
+        ball.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+
+</html>

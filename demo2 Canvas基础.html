@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript">
+        // body加载完成执行
+        function draw() {
+            // 获取 canvas 对象
+            const cnv = document.getElementById('demo');
+            // 检测支持性
+            if (!cnv.getContext) return;
+            // 获取 2d 渲染上下文对象
+            const ctx = cnv.getContext("2d");
+
+            // 矩形填充
+            ctx.fillStyle = "rgb(200,0,0)";
+            ctx.fillRect(0, 0, 100, 200); // fillRect(x, y, width, height)：绘制一个填充的矩形。
+
+            // 矩形描边
+            ctx.strokeStyle = 'skyblue';
+            ctx.strokeRect(105, 0, 100, 200); // strokeRect(x, y, width, height)：绘制一个矩形的边框。
+
+            // 圆形描边
+            ctx.strokeStyle = "rgb(200,0,0)";
+            ctx.arc(260, 50, 50, 0, 2 * Math.PI, false); // 圆心(260, 50)，半径50的圆；false---顺时针
+            ctx.closePath()
+            ctx.stroke();
+
+            // 三角形描边
+            ctx.beginPath(); // 方法开始一条路径，或重置当前的路径
+            ctx.moveTo(320, 0);
+            ctx.lineTo(420, 0);
+            ctx.lineTo(420, 100);
+            ctx.lineTo(320, 0); // 手动闭合不好
+            ctx.lineWidth = 1; // 设置线宽
+            // ctx.setLineDash([1]); // 设置虚线
+            // ctx.closePath(); //虽然我们只绘制了两条线段，但是closePath会闭合，仍然是一个3角形；而且尽量用closePath去闭合，而不是再画第三条
+            ctx.stroke(); //描边。stroke不会自动closePath()
+        }
+    </script>
+</head>
+
+<body onload="draw()">
+    <div class='container'>
+
+        <!-- Create the Canvas element. -->
+        <canvas id="demo"
+            width="800"
+            height="800">
+            <span>canvas不可用时话术,兼容低版本浏览器</span>
+        </canvas>
+
+    </div>
+</body>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-around;
+    }
+</style>
+
+</html>

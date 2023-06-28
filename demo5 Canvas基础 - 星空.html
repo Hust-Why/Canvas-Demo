@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript">
+    function draw() {
+      const ctx = document.getElementById("demo").getContext("2d");
+
+      // 黑色背景
+      ctx.fillRect(0, 0, 600, 600);
+
+      // 移动 canvas 和它的原点到(300, 300)
+      ctx.translate(300, 300);
+
+      // 圆形裁剪区域，之后绘制的路径只有在里面的才会显示
+      ctx.beginPath();
+      ctx.arc(0, 0, 250, 0, Math.PI * 2, true);
+      ctx.clip();
+
+      // 创建线性渐变（起始点x,y,终止点x, y） (左上) -> (右下)
+      const lingrad = ctx.createLinearGradient(0, 0, 600, 600);
+      lingrad.addColorStop(0, "#232256");  // 定义一个从#232256到#eee的渐变色 蓝->白
+      lingrad.addColorStop(1, "#eee");
+      ctx.fillStyle = lingrad; // 将渐变应用到fillStyle
+      ctx.fillRect(-300, -300, 600, 600); // 将渐变应用到矩形；受到translate影响，需手动将坐标-300，即会到原点
+
+      // 画星星✨
+      for (let i = 0; i < 100; i++) {
+        const R = Math.random() * 10 + 10; // （0-20的半径）
+        const r = R / 2.0;
+        const x = (Math.random() * 2 - 1) * 220;
+        const y = (Math.random() * 2 - 1) * 220;
+        const rotate = Math.random() * 360;
+        drawStar(ctx, r, R, x, y, rotate);
+      }
+    }
+
+    // 带旋转参数、抽离函数
+    function drawStar(ctx, R, r, offsetX, offsetY, rotate) {
+      const angle = 360 / 5; // 点间距角度
+      const radian = 2 * Math.PI / 360; // 弧度
+
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        ctx.lineTo(Math.cos((18 + angle * i - rotate) * radian) * R + offsetX, -Math.sin((18 + angle * i - rotate) * radian) * R + offsetY);
+        ctx.lineTo(Math.cos((54 + angle * i - rotate) * radian) * r + offsetX, -Math.sin((54 + angle * i - rotate) * radian) * r + offsetY);
+      }
+      ctx.fillStyle = 'gold';//设置封闭图形的填充颜色
+      ctx.fill();//填充颜色
+      ctx.closePath();
+      ctx.stroke();
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+  <div class='container'>
+
+    <!-- Create the Canvas element. -->
+    <canvas id="demo"
+      width="600"
+      height="600">
+      <span>canvas不可用时话术,兼容低版本浏览器</span>
+    </canvas>
+
+  </div>
+</body>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-around;
+  }
+</style>
+
+</html>

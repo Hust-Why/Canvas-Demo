@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title></title>
+</head>
+
+<body>
+    <!-- 页面背景 -->
+    <canvas id="demo"></canvas>
+</body>
+
+<script>
+    const cnv = document.getElementById("demo");
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    cnv.width = w;
+    cnv.height = h;
+    const ctx = cnv.getContext("2d");
+
+    // 1 球类
+    class Ball {
+        // 1 小球坐标
+        constructor(x, y, radius, color) {
+            this.x = x; // x坐标
+            this.y = y; // y坐标
+            this.radius = radius || Math.random() * 10 + 5; // 随机半径在5-15
+            this.color = color || `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255},  ${Math.random()})`;
+            this.vx = Math.random() * 2 - 1; // 横线速度[-1, 1]
+            this.vy = Math.random() * 2 - 1; // 纵向速度[-1, 1]
+        }
+
+        // 1 渲染小球
+        render(ctx) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = this.color;
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // 1 小球间连线
+        line(ball) {
+            ctx.beginPath();
+            const dx = this.x - ball.x; // 2小球横坐标差值
+            const dy = this.y - ball.y; // 2小球纵坐标差值
+            const l = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) // 2小球球心间距(坐标差值平方和的平方根)
+
+            // 若间距小于100就连线
+            if (l < 100) {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(ball.x, ball.y);
+                ctx.strokeStyle = this.color;
+                ctx.closePath();
+                ctx.stroke();
+            }
+        }
+
+        // 更新最新坐标
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+        }
+
+        // 边界检测
+        checkWalls() {
+            // 左右边界反弹
+            if (this.x < this.radius) { // 碰撞左侧，vx相反
+                this.x = this.radius;
+                this.vx *= -1;
+            } else if (this.x > w - this.radius) {
+                this.x = w - this.radius;
+                this.vx *= -1;
+            }
+
+            // 上下边界反弹
+            if (this.y < this.radius) {
+                this.y = this.radius;
+                this.vy *= -1;
+            } else if (this.y > h - this.radius) {
+                this.y = h - this.radius;
+                this.vy *= -1;
+            }
+        }
+    }
+
+    //  1 测试
+    // const a = new Ball(100, 100);
+    // const b = new Ball(110, 110);
+    // a.render(ctx);
+    // b.render(ctx);
+    // a.line(b);
+
+    // 1小球数组
+    const balls = [];
+    const num = 100; //小球个数
+
+    // 2 小球创建
+    for (let index = 0; index < num; index++) {
+        balls.push(new Ball(Math.random() * w, Math.random() * h));
+    }
+
+    // 2 静态测试小球渲染
+    // balls.forEach(ball => {
+    //     ball.render(ctx);
+    //     // 连线，排除自身
+    //     balls.forEach(ball2 => {
+    //         if (ball !== ball2) {
+    //             ball.line(ball2);
+    //         }
+    //     });
+    // })
+
+    // 4 创建鼠标控制的小球
+    const base = new Ball(Math.random() * w, Math.random() * h);
+    balls.push(base);
+    // 鼠标活动时，获取鼠标坐标
+    window.onmousemove = function (e) {
+        e = e || window.event;
+        base.x = e.clientX;
+        base.y = e.clientY;
+    };
+    window.onmouseout = function (e) {
+        base.x = null;
+        base.y = null;
+    };
+
+    // 3 动画
+    const animate = () => {
+
+        // 非拖尾qingchu
+        ctx.clearRect(0, 0, w, h);
+
+        balls.forEach(ball => {
+            // 边界检测
+            ball.checkWalls(ball);
+
+            // 更新小球的速度及坐标
+            ball.update();
+
+            // 重新绘制
+            ball.render(ctx);
+
+            // 连线，排除自身
+            balls.forEach(ball2 => {
+                if (ball !== ball2) {
+                    ball.line(ball2);
+                }
+            });
+        });
+
+        requestAnimationFrame(animate);
+
+    }
+
+    // 3 动画
+    requestAnimationFrame(animate);
+
+</script>
+
+</html>

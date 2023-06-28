@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript">
+    // body加载完成执行
+    function draw() {
+      // 获取 canvas 对象
+      const cnv = document.getElementById('demo');
+      const ctx = cnv.getContext("2d");
+
+      // 获取 颜色展示区块 对象
+      const hoveredColor = document.getElementById("hovered-color");
+      const selectedColor = document.getElementById("selected-color");
+
+      // Canvas添加鼠标移动事件
+      // mousemove
+      cnv.addEventListener("mousemove", function (event) {
+        pick(event, hoveredColor);
+      });
+      // mousedown
+      cnv.addEventListener("mousedown", function (event) {
+        pick(event, selectedColor);
+      });
+
+      // 加载图片
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = 'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6e3bec4a869046ecbb590c5f7aefc627~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp'
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0, 300, 300);
+      };
+
+      // 获取像素数据
+      function pick(event, target) {
+        // 获取鼠标相对于Canvas的x和y方向的偏移量
+        const pixel = ctx.getImageData(event.offsetX, event.offsetY, 1, 1).data;
+        console.log(pixel);
+        const rgba = `rgba(${pixel[0]},${pixel[1]},${pixel[2]},${pixel[3] / 255})`;
+        if (target) {
+          target.style.background = rgba;
+          target.textContent = rgba;
+        }
+      }
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+  <div class='container'>
+
+    <!-- Create the Canvas element. -->
+    <canvas id="demo"
+      width="300"
+      height="300">
+      <span>canvas不可用时话术,兼容低版本浏览器</span>
+    </canvas>
+    <div class="section">
+      <div class="hover">
+        <h2>hover color</h2>
+        <div id="hovered-color"></div>
+      </div>
+      <div class="select">
+        <h2>select color</h2>
+        <div id="selected-color"></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .section {
+    display: flex;
+  }
+
+  .hover {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #hovered-color,
+  #selected-color {
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid turquoise;
+  }
+</style>
+
+</html>

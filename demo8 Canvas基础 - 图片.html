@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript">
+    // body加载完成执行
+    function draw() {
+      // 获取 canvas 对象
+      const cnv = document.getElementById('demo');
+      const ctx = cnv.getContext("2d");
+
+      // 1 创建 Image 对象
+      const image = new Image()
+
+      // 2 引入图片
+      image.src = 'images/dog.png'
+
+      // 3 等待图片加载完成
+      image.onload = () => {
+        // 4 使用 drawImage() 方法渲染图片
+
+        // 直接加载
+        // ctx.drawImage(image, 0, 0)
+
+        // 设置图片宽高
+        // ctx.drawImage(image, 0, 0, 500, 500)
+
+        // 裁剪（裁剪原图片(300,400)起始点长宽300px的图片`，放到canvas(0,0)起，长宽设置为400,400）
+        ctx.drawImage(image, 300, 400, 300, 300, 0, 0, 400, 400)
+      }
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+  <div class='container'>
+
+    <!-- Create the Canvas element. -->
+    <canvas id="demo"
+      width="1080"
+      height="1138">
+      <span>canvas不可用时话术,兼容低版本浏览器</span>
+    </canvas>
+
+  </div>
+</body>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-around;
+  }
+</style>
+
+</html>

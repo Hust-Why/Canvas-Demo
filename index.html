@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas分享</title>
+	<style type="text/css">
+		body {
+			background: linear-gradient(skyblue 0%, rgb(182, 226, 39) 50%, skyblue 100%);
+		}
+
+		.container {
+			display: flex;
+			gap: 30px;
+			flex-wrap: wrap;
+			align-items: center;
+			margin: 0 60px;
+		}
+
+		a {
+			display: block;
+			width: 300px;
+			float: left;
+			box-shadow: 1px 2px 5px #444;
+			border-radius: 5px;
+			color: #444;
+			background: linear-gradient(to left, #BDFBFA, white);
+			text-decoration: none;
+			text-align: center;
+			font-size: 20px;
+			line-height: 2;
+			transition: all 0.5s ease-in-out;
+		}
+
+		@media (max-width: 750px) {
+			a {
+				float: none;
+				margin: 0 auto 4%;
+			}
+		}
+
+		a:hover {
+			transform: scale(1.1);
+			color: red;
+		}
+
+		h1 {
+			margin: 5% auto;
+			width: 100%;
+			text-align: center;
+			color: white;
+			text-shadow: 1px 2px 2px #444;
+		}
+	</style>
+</head>
+
+<script>
+	var ascii = `
+ _    _      _ _        __          __        _     _ 
+| |  | |    | | |       \\ \\        / /       | |   | |
+| |__| | ___| | | ___    \\ \\  /\\  / /__  _ __| | __| |
+|  __  |/ _ \\ | |/ _ \\    \\ \\/  \\/ / _ \\| '__| |/ _\` |
+| |  | |  __/ | | (_) |    \\  /\\  / (_) | |  | | (_| |
+|_|  |_|\\___|_|_|\\___/      \\/  \\/ \\___/|_|  |_|\\__,_|                                                                                                                                                                                  
+                        `
+	console.log(`%c${ascii}`, 'color:#e59de3')
+
+	var ascii2 = `
+                      .::::.
+                    .::::::::.
+                   :::::::::::
+                ..:::::::::::'
+             '::::::::::::'
+               .::::::::::
+          '::::::::::::::..
+               ..::::::::::::.
+               ::::::::::::::::
+              :::::::::::::::'        .:::.
+             ::::'   ':::::'       .::::::::.
+           .::::'      ::::     .:::::::'::::.
+          .:::'       :::::  .:::::::::' ':::::.
+         .::'        :::::.:::::::::'      ':::::.
+        .::'         ::::::::::::::'         ::::::.
+    ...:::           ::::::::::::'              ::::.
+                     ':::::::::'                  ::::..
+                      '.:::::'                     ::::'''..                                                                                                        
+                        `
+	console.log(`%c${ascii2}`, 'color:#e59de3')
+</script>
+
+<body>
+	<h1>Canvas分享</h1>
+	<div class="container">
+		<a href="./radius-raid-js13k-master/index.html"
+			target="_blank">游戏</a>
+		<a href="demo1 SVG-Canvas比较.html"
+			target="_blank">SVG-Canvas比较</a>
+		<a href="demo2 Canvas基础.html"
+			target="_blank">Canvas基础</a>
+		<a href="demo3 Canvas基础-贝塞尔曲线.html"
+			target="_blank">贝塞尔曲线</a>
+		<a href="demo4 Canvas基础-五角星.html"
+			target="_blank">五角星</a>
+		<a href="demo5 Canvas基础 - 星空.html"
+			target="_blank">星空</a>
+		<a href="demo6 Canvas基础 - 非零环绕原则 - fill.html"
+			target="_blank">非零环绕原则 - fill</a>
+		<a href="demo7 Canvas基础 - 非零环绕原则 - isPointInPath.html"
+			target="_blank">非零环绕原则 - isPointInPath</a>
+		<a href="demo8 Canvas基础 - 图片.html"
+			target="_blank">图片</a>
+		<a href="demo9 Canvas动画 - 小球碰撞.html"
+			target="_blank">小球碰撞</a>
+		<a href="demo10 Canvas像素 - 颜色选择器.html"
+			target="_blank">颜色选择器</a>
+		<a href="demo11 Canvas像素 - 图片点阵化.html"
+			target="_blank">图片点阵化</a>
+		<a href="demo12 Canvas实践 - 粒子动画.html"
+			target="_blank">粒子动画</a>
+		<a href="demo13 Canvas实践 - 粒子动画2.html"
+			target="_blank">粒子动画2</a>
+		<a href="demo14 思考题1.html"
+			target="_blank">思考题1</a>
+		<a href="demo15 思考题2.html"
+			target="_blank">思考题2</a>
+	</div>
+</body>
+
+</html>

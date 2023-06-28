@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript">
+        // body加载完成执行
+        function draw() {
+
+            // 获取 canvas 对象
+            const cnv = document.getElementById('demo');
+
+            // 检测支持性
+            if (!cnv.getContext) return;
+
+            // 获取 2d 渲染上下文对象
+            const ctx = cnv.getContext("2d");
+
+            //绘制二次贝塞尔曲线
+            ctx.beginPath();
+            ctx.moveTo(10, 400); //起始点
+            var cp1x = 40, cp1y = 300;  //控制点
+            var x = 200, y = 400; // 结束点
+            ctx.quadraticCurveTo(cp1x, cp1y, x, y);
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+
+            //绘制二次贝塞尔曲线控制点
+            ctx.beginPath();
+            ctx.rect(10, 400, 10, 10);
+            ctx.rect(cp1x, cp1y, 10, 10);
+            ctx.rect(x, y, 10, 10);
+            ctx.fillStyle = "red";
+            ctx.fill();
+
+
+            //绘制三次贝塞尔曲线
+            ctx.beginPath();
+            ctx.moveTo(40, 400); //起始点
+            var cp1x = 20, cp1y = 300;  //控制点1
+            var cp2x = 100, cp2y = 320;  //控制点2
+            var x = 200, y = 400; // 结束点
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+            ctx.strokeStyle = "blue";
+            ctx.stroke();
+
+            //绘制三次贝塞尔曲线控制点
+            ctx.beginPath();
+            ctx.rect(40, 400, 10, 10);
+            ctx.rect(cp1x, cp1y, 10, 10);
+            ctx.rect(cp2x, cp2y, 10, 10);
+            ctx.rect(x, y, 10, 10);
+            ctx.fillStyle = "blue";
+            ctx.fill();
+
+
+            // 绘制爱心
+            ctx.beginPath();
+            ctx.moveTo(75, 40);
+            ctx.bezierCurveTo(75, 37, 70, 25, 50, 25);
+            ctx.bezierCurveTo(20, 25, 20, 62.5, 20, 62.5);
+            ctx.bezierCurveTo(20, 80, 40, 102, 75, 120);
+            ctx.bezierCurveTo(110, 102, 130, 80, 130, 62.5);
+            ctx.bezierCurveTo(130, 62.5, 130, 25, 100, 25);
+            ctx.bezierCurveTo(85, 25, 75, 37, 75, 40);
+            ctx.fillStyle = "red";
+            ctx.fill();
+
+        }
+    </script>
+</head>
+
+<body onload="draw()">
+    <div class='container'>
+
+        <!-- Create the Canvas element. -->
+        <canvas id="demo"
+            width="800"
+            height="800">
+            <span>canvas不可用时话术,兼容低版本浏览器</span>
+        </canvas>
+
+    </div>
+</body>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-around;
+    }
+</style>
+
+</html>

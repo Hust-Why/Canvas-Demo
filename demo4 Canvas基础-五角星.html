@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript">
+    function draw() {
+      const canvas = document.getElementById('demo');//获取dom节点
+      const ctx = canvas.getContext("2d");//绘制2d图形
+      ctx.lineWidth = 5;//线条宽度
+      ctx.strokeStyle = 'red';//线条颜色
+
+      const angle = 360 / 5;
+      const radian = 2 * Math.PI / 360; // 弧度
+      const R = 200;
+      const r = 100;
+      const offsetX = 500; // X偏移
+      const offsetY = 250; // Y偏移
+
+      const Q1 = [Math.cos(18 * radian) * R + offsetX, -Math.sin(18 * radian) * R + offsetY]; // 大圆右上1坐标
+
+      const q1 = [Math.cos(54 * radian) * r + offsetX, -Math.sin(54 * radian) * r + offsetY]; // 小圆右上1坐标
+
+      const Q2 = [Math.cos((18 + angle) * radian) * R + offsetX, -Math.sin((18 + angle) * radian) * R + offsetY]; // 大圆上2坐标
+
+      const q2 = [Math.cos((54 + angle) * radian) * r + offsetX, -Math.sin((54 + angle) * radian) * r + offsetY]; // 小圆上2坐标
+
+      ctx.beginPath();
+
+      // 画o - Q1的直线（由于没有moveTo 所以就是将坐标移动到该点）
+      ctx.lineTo(Q1[0], Q1[1]);
+
+      // 画Q1 - q1的直线
+      ctx.lineTo(q1[0], q1[1]);
+
+      // 画q1 - Q2的直线
+      ctx.lineTo(Q2[0], Q2[1]);
+
+      // 画Q2 - q2的直线
+      ctx.lineTo(q2[0], q2[1]);
+
+      // ctx.closePath();//封闭路径
+      ctx.stroke();//执行绘制函数
+
+
+      // 遍历
+      ctx.beginPath();//指定路径
+      for (let i = 0; i < 5; i++) {
+        ctx.lineTo(Math.cos((18 + angle * i) * radian) * R + offsetX, -Math.sin((18 + angle * i) * radian) * R + offsetY);
+        ctx.lineTo(Math.cos((54 + angle * i) * radian) * r + offsetX, -Math.sin((54 + angle * i) * radian) * r + offsetY);
+      }
+      ctx.closePath();//封闭路径
+      ctx.stroke();//执行绘制函数
+
+      drawStar(ctx, 200, 100, 200, 500, 36);
+    }
+
+    // 带旋转参数、抽离函数
+    function drawStar(ctx, R, r, offsetX, offsetY, rotate) {
+      const angle = 360 / 5; // 点间距角度
+      const radian = 2 * Math.PI / 360; // 弧度
+
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        ctx.lineTo(Math.cos((18 + angle * i - rotate) * radian) * R + offsetX, -Math.sin((18 + angle * i - rotate) * radian) * R + offsetY);
+        ctx.lineTo(Math.cos((54 + angle * i - rotate) * radian) * r + offsetX, -Math.sin((54 + angle * i - rotate) * radian) * r + offsetY);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+  <div class='container'>
+
+    <!-- Create the Canvas element. -->
+    <canvas id="demo"
+      width="800"
+      height="800">
+      <span>canvas不可用时话术,兼容低版本浏览器</span>
+    </canvas>
+
+  </div>
+</body>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-around;
+  }
+</style>
+
+</html>

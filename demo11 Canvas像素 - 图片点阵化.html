@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript">
+    // body加载完成执行
+    function draw() {
+      // 获取 canvas 对象
+      const cnv = document.getElementById('demo');
+      const ctx = cnv.getContext("2d");
+      const x = cnv.width
+      const y = cnv.height
+
+      // 加载图片
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // 允许跨域
+      img.src = 'https://img2017.manmanbuy.com/20220612144401_4610.jpeg';
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0, 436, 436);
+        handleImageData();
+      };
+
+      // 像素操作
+      function handleImageData(params) {
+        let imgData = ctx.getImageData(0, 0, x, y);
+        let pixelData = imgData.data;
+
+        // 灰白处理
+        // for (var i = 0; i < pixelData.length; i += 4) {
+        //   if (!!imgData.data[i]) {
+        //     // #r*0.3 + #g *0.59 + #b*0.11（平均灰度法）得到灰度值
+        //     let gray = parseInt(imgData.data[i] * 0.3 + imgData.data[i + 1] * 0.59 + imgData.data[i + 2] * 0.11);
+        //     imgData.data[i] = gray;
+        //     imgData.data[i + 1] = gray;
+        //     imgData.data[i + 2] = gray;
+        //     imgData.data[i + 3] = 255;
+        //   }
+        // }
+
+        for (var i = 0; i < pixelData.length; i += 4) {
+          // 白色不处理
+          if (imgData.data[i] != 255 && imgData.data[i + 1] != 255 && imgData.data[i + 2] != 255) {
+            // 因为必须黑色和白色间隔显示才能显示点阵，不能所有颜色一样。一个像素是4个值，所以必须是4的倍数。值越小，越密集。值越大越松缓，这里取12是显示的效果比较好
+            if (i % 12 != 0) {
+              // 黑
+              imgData.data[i] = 255;
+              imgData.data[i + 1] = 255;
+              imgData.data[i + 2] = 255;
+            } else {
+              // 白
+              imgData.data[i] = 0;
+              imgData.data[i + 1] = 0;
+              imgData.data[i + 2] = 0;
+            }
+          }
+        }
+
+        ctx.putImageData(imgData, 400, 0);
+
+        oGrayImg = new Image();
+        oGrayImg.src = cnv.toDataURL();
+
+        // 打印图片
+        console.log(
+          "%c ",
+          `background-image: url(${oGrayImg.src});
+           padding: 200px;
+          `
+        )
+      }
+    }
+  </script>
+</head>
+
+<body onload="draw()">
+  <div class='container'>
+
+    <!-- Create the Canvas element. -->
+    <canvas id="demo"
+      width="1000"
+      height="1000">
+      <span>canvas不可用时话术,兼容低版本浏览器</span>
+    </canvas>
+  </div>
+</body>
+
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+</style>
+
+</html>
